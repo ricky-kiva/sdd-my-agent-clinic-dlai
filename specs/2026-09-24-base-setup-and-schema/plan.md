@@ -36,11 +36,11 @@ This plan specifies the implementation steps for Phase 1 as five numbered task g
 
 ---
 
-### Task Group 5: Minimal AgentClinic Home Page
-- **Task 5.1**: Create `src/app/globals.css` with clinic design tokens (calming slate/blue palette, responsive typography, card styles).
-- **Task 5.2**: Create `src/app/layout.tsx` defining the root HTML shell, navigation banner, and SEO metadata.
+### Task Group 5: Minimal AgentClinic Home Page with Glassmorphism Design
+- **Task 5.1**: Create `src/app/globals.css` with clinic design tokens and glassmorphic system (frosted glass surface translucency, `backdrop-filter: blur()`, specular rim borders, ambient glowing background gradients/orbs, and sleek micro-interactions).
+- **Task 5.2**: Create `src/app/layout.tsx` defining the root HTML shell, glassmorphic floating header navigation, ambient background orbs, and SEO metadata.
 - **Task 5.3**: Create `src/app/page.tsx` as a React Server Component that queries the SQLite database to display:
-  - Welcome sanctuary banner ("Relief for AI agents from their humans").
-  - Live clinic stats cards (registered ailments, available therapies, active agent patients).
-  - Navigation cards previewing upcoming phases (Ailment Catalog, Booking, Dashboards).
+  - Frosted glass hero sanctuary banner ("Relief for AI agents from their humans") with shimmering typography.
+  - Live clinic stats cards styled with translucent glassmorphic surfaces, glow effects, and subtle depth.
+  - Interactive glass preview cards for upcoming phases (Ailment Catalog, Booking, Dashboards) with dynamic hover accents.
 - **Task 5.4**: Add `dev` and `build` scripts in `package.json` (`next dev`, `next build`, `next start`).
