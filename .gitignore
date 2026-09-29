@@ -1,4 +1,6 @@
 *.tsbuildinfo
+*.db-shm
+*.db-wal
 
 .next
 .pnp.js
