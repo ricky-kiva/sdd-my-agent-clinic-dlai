@@ -32,12 +32,17 @@ This document specifies how to verify that Phase 1 implementation succeeded and 
   - Exits with status code 0 and logs:
     `✅ Phase 1 Verification Passed: All tables, types, and constraints verified.`
 
-### Step 4: Next.js Production Build & Home Page Verification
+### Step 4: Next.js Production Build & Responsive UI Verification
 - **Command**: `npm run build`
 - **Criteria**:
   - Production build compiles successfully (`next build`).
   - Confirms compilation of `src/app/page.tsx`, `src/app/layout.tsx`, and `src/app/globals.css`.
   - Verifies that the home page statically/server-renders without hydration or database access errors during build time.
+  - **Responsive Design Verification**:
+    - Mobile Viewport (< 640px): Content stacks gracefully into a single column, hero header scales via fluid typography, navigation collapses without clipping, and touch targets maintain $\ge 44\times 44\text{px}$ without horizontal scrolling.
+    - Tablet Viewport (640px–1024px): Stats cards and roadmap previews reflow cleanly into balanced 2-column grids with appropriate margins.
+    - Desktop Viewport (> 1024px): Balanced 3-column telemetry and feature cards within the centered 1140px container.
+    - Viewport metadata (`width=device-width, initial-scale=1`) is properly configured in the root layout.
 
 ---
 
@@ -45,7 +50,9 @@ This document specifies how to verify that Phase 1 implementation succeeded and 
 - [ ] Feature branch `feature/base-setup-and-schema` is active.
 - [ ] Dependencies installed and pinned in `package.json`.
 - [ ] `npx tsc --noEmit` passes with 0 errors.
+- [ ] `npm test` passes all Vitest unit and integration assertions.
 - [ ] `npm run db:seed` populates data idempotently.
 - [ ] `npm run db:verify` passes all assertions in one execution.
 - [ ] `npm run build` successfully builds the Next.js app including the minimal home page.
+- [ ] Responsive design verified across mobile, tablet, and desktop viewports with zero horizontal overflow.
 - [ ] Working tree is clean and ready for review.

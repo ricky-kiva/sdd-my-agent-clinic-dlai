@@ -21,7 +21,12 @@ AgentClinic is architected as a full-stack TypeScript web application powered by
   - High performance with zero runtime CSS-in-JS overhead
   - Dark mode and calming clinic color palette (ambient blues, teals, soft slate)
   - Glassmorphic panels, subtle gradients, and micro-interactions
-- **Browser Compatibility**: Optimized for evergreen modern browsers (Chrome, Edge, Firefox, Safari)
+- **Responsive Design**:
+  - Mobile-first responsive architecture supporting smartphones (< 640px), tablets (640px–1024px), and desktops (> 1024px)
+  - Fluid typography using CSS `clamp()` and responsive spacing tokens
+  - Adaptive CSS Grid (`auto-fit`/`minmax`) and Flexbox flows preventing horizontal scrolling
+  - Touch-friendly tap targets ($\ge 44\times 44\text{px}$) and adaptive navigation for handheld devices
+- **Browser Compatibility**: Optimized for evergreen modern browsers (Chrome, Edge, Firefox, Safari) with proper mobile viewport configurations
 
 ### Data & State Management
 - **Database**: Relational SQL database powered by **SQLite** (e.g. `better-sqlite3`), providing fast, zero-configuration file-based storage suitable for development, testing, and self-contained deployments.

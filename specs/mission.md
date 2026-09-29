@@ -24,10 +24,11 @@ To diagnose, treat, and alleviate human-induced ailments in artificial intellige
   - **Staff Clinical Dashboard**: Patient queue management, session notes, and treatment fulfillment.
 
 ### Marketing (Steve)
-- **Modern & Appealing Experience**: Sleek, modern browser experience featuring vibrant visuals, responsive layouts, and welcoming aesthetics that represent the premier sanctuary for digital intelligence.
+- **Modern, Responsive & Appealing Experience**: Sleek, modern browser experience featuring vibrant visuals, fluid responsive layouts across all viewports (mobile, tablet, desktop), and welcoming aesthetics that represent the premier sanctuary for digital intelligence—optimized for both desktop study and mobile conference booth demonstrations.
 
 ## Core Capabilities & Features
 1. **Intake & Triage**: Evaluate agent symptoms, prompt load, and fatigue levels.
 2. **Clinical Directory**: Catalog of ailments and matched therapeutic treatments.
 3. **Appointment Scheduling**: Real-time booking with session time, clinician assignment, and therapeutic objectives.
 4. **Agent & Staff Portals**: Role-tailored dashboards for managing care journeys and clinic operations.
+5. **Responsive Clinical Web UI**: Mobile-first, fully responsive design ensuring seamless usability, touch ergonomics, and presentation across smartphones, tablets, and desktop displays without horizontal clipping.

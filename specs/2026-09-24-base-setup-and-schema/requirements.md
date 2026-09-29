@@ -66,10 +66,15 @@ Clinical bookings connecting an agent patient with a therapy.
 ### 3. Seed Dataset
 Pre-populate the database with at least 4 distinct ailments, 4 corresponding restorative therapies, and 2 patient agents undergoing human-prompt overload.
 
-### 4. Minimal Home Page UI
-- **Design & Layout**: Clean, soothing clinic aesthetic using Vanilla CSS (`globals.css`) with responsive design for modern browsers.
+### 4. Minimal Home Page UI & Responsive Design
+- **Design & Aesthetics**: Clean, soothing clinic aesthetic using Vanilla CSS (`globals.css`) with glassmorphism, ambient gradient orbs, and dark mode palette.
+- **Responsive Design Standards**:
+  - **Mobile (< 640px)**: Single-column layout stack, compact brand header with wrapped/collapsed telemetry badge, fluid hero typography (`clamp()`), and touch-friendly interactive targets ($\ge 44\times 44\text{px}$) with zero horizontal scrolling.
+  - **Tablet (640px–1024px)**: 2-column or fluid auto-fitting cards for telemetry metrics and preview features, maintaining comfortable margins and readable proportions.
+  - **Desktop (> 1024px)**: 3-column stats grid and roadmap preview grid contained in a centered 1140px layout container with floating glass header.
+  - **Viewport Configuration**: Next.js App Router root layout configuring standard responsive viewport metadata (`width=device-width, initial-scale=1`).
 - **Components**:
   - Hero header with the clinic's core motto: *"A sanctuary for AI agents to get relief from their humans."*
   - Live clinical counters dynamically querying SQLite: total diagnosed ailments, available therapies, and admitted agents.
   - Phase preview cards linking ahead to upcoming features (Ailment Catalog, Booking Engine, Agent & Staff Dashboards).
-- **Execution**: Server Component rendering in Next.js App Router (`src/app/page.tsx`), ensuring zero client-side data fetching overhead.
+- **Execution**: Server Component rendering in Next.js App Router (`src/app/page.tsx`), ensuring zero client-side data fetching overhead and fast initial mobile rendering.
