@@ -31,3 +31,4 @@ AgentClinic is architected as a full-stack TypeScript web application powered by
 ### Development & Tooling
 - **Build & Package Management**: npm
 - **Type Checking & Linting**: `tsc` (TypeScript compiler)
+- **Testing & Validation**: [Vitest](https://vitest.dev/) for unit, repository, and integration test validation with fast native TypeScript execution.
