@@ -1,12 +1,11 @@
 *.tsbuildinfo
-*.db-shm
-*.db-wal
 
 .next
 .pnp.js
 .vscode/*
 
 /.pnp
+/data
 /node_modules
 /out-tsc
 /tmp
