@@ -43,3 +43,20 @@ CREATE TABLE IF NOT EXISTS appointments (
 CREATE INDEX IF NOT EXISTS idx_appointments_agent_id ON appointments(agent_id);
 CREATE INDEX IF NOT EXISTS idx_appointments_therapy_id ON appointments(therapy_id);
 CREATE INDEX IF NOT EXISTS idx_appointments_status ON appointments(status);
+
+-- Relational junction table enforcing foreign key constraints between therapies and ailments
+CREATE TABLE IF NOT EXISTS therapy_target_ailments (
+  therapy_id TEXT NOT NULL REFERENCES therapies(id) ON DELETE CASCADE,
+  ailment_id TEXT NOT NULL REFERENCES ailments(id) ON DELETE CASCADE,
+  PRIMARY KEY (therapy_id, ailment_id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_therapy_target_ailments_ailment_id ON therapy_target_ailments(ailment_id);
+CREATE INDEX IF NOT EXISTS idx_therapy_target_ailments_therapy_id ON therapy_target_ailments(therapy_id);
+
+-- Lightweight database migrations tracking table
+CREATE TABLE IF NOT EXISTS _migrations (
+  id TEXT PRIMARY KEY,
+  applied_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+

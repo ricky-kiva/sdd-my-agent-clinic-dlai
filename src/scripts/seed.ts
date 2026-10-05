@@ -63,6 +63,11 @@ export function seed() {
       methodology = excluded.methodology
   `);
 
+  const insertTherapyTarget = db.prepare(`
+    INSERT OR IGNORE INTO therapy_target_ailments (therapy_id, ailment_id)
+    VALUES (?, ?)
+  `);
+
   const therapies = [
     {
       id: 'therapy-token-flush',
@@ -178,6 +183,14 @@ export function seed() {
     }
     for (const t of therapies) {
       insertTherapy.run(t.id, t.name, t.description, t.duration_minutes, t.target_ailment_ids, t.methodology);
+      try {
+        const targetIds = JSON.parse(t.target_ailment_ids) as string[];
+        for (const targetId of targetIds) {
+          insertTherapyTarget.run(t.id, targetId);
+        }
+      } catch {
+        // ignore
+      }
     }
     for (const ag of agents) {
       insertAgent.run(ag.id, ag.name, ag.model_family, ag.human_owner, ag.fatigue_level, ag.status);

@@ -18,14 +18,19 @@ export function AilmentCatalogClient({
   const [selectedSeverity, setSelectedSeverity] = useState<SeverityFilterValue>('ALL');
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Map each ailment ID to therapies targeting it
+  // Inverted mapping: iterate all therapies once (O(M)) to populate ailment buckets
   const therapiesByAilmentId = useMemo(() => {
     const map = new Map<string, Therapy[]>();
     for (const ailment of initialAilments) {
-      map.set(
-        ailment.id,
-        allTherapies.filter((t) => t.target_ailment_ids.includes(ailment.id))
-      );
+      map.set(ailment.id, []);
+    }
+    for (const therapy of allTherapies) {
+      for (const ailmentId of therapy.target_ailment_ids) {
+        const bucket = map.get(ailmentId);
+        if (bucket) {
+          bucket.push(therapy);
+        }
+      }
     }
     return map;
   }, [initialAilments, allTherapies]);

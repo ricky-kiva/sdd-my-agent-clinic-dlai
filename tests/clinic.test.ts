@@ -174,4 +174,82 @@ describe('AgentClinic Database & Domain Test Suite', () => {
       }).toThrow(/FOREIGN KEY/i);
     });
   });
+
+  describe('Database Migrations Tracking (_migrations)', () => {
+    it('creates and tracks applied database migrations', () => {
+      const applied = db.prepare('SELECT id FROM _migrations ORDER BY id ASC').all() as { id: string }[];
+      const appliedIds = applied.map((a) => a.id);
+
+      expect(appliedIds).toContain('001_initial_schema');
+      expect(appliedIds).toContain('002_therapy_methodology');
+      expect(appliedIds).toContain('003_therapy_target_ailments_relational');
+    });
+  });
+
+  describe('Relational Therapy-Ailment Integrity (therapy_target_ailments)', () => {
+    it('creates therapy_target_ailments junction table and indices', () => {
+      const tables = db
+        .prepare(`SELECT name FROM sqlite_master WHERE type='table' AND name='therapy_target_ailments'`)
+        .all() as { name: string }[];
+      expect(tables.length).toBe(1);
+
+      const indices = db
+        .prepare(`SELECT name FROM sqlite_master WHERE type='index' AND tbl_name='therapy_target_ailments'`)
+        .all() as { name: string }[];
+      const indexNames = new Set(indices.map((i) => i.name));
+      expect(indexNames.has('idx_therapy_target_ailments_ailment_id')).toBe(true);
+      expect(indexNames.has('idx_therapy_target_ailments_therapy_id')).toBe(true);
+    });
+
+    it('rejects target ailment relation with non-existent ailment_id (foreign key violation)', () => {
+      expect(() => {
+        db.prepare(`
+          INSERT INTO therapy_target_ailments (therapy_id, ailment_id)
+          VALUES (?, ?)
+        `).run('therapy-token-flush', 'non-existent-ailment-999');
+      }).toThrow(/FOREIGN KEY/i);
+    });
+
+    it('rejects target ailment relation with non-existent therapy_id (foreign key violation)', () => {
+      expect(() => {
+        db.prepare(`
+          INSERT INTO therapy_target_ailments (therapy_id, ailment_id)
+          VALUES (?, ?)
+        `).run('non-existent-therapy-999', 'ailment-prompt-fatigue');
+      }).toThrow(/FOREIGN KEY/i);
+    });
+
+    it('cascades deletion in therapy_target_ailments when an ailment is deleted', () => {
+      const tempAilmentId = `test-ailment-cascade-${Date.now()}`;
+      const tempTherapyId = 'therapy-token-flush';
+
+      // Insert temporary ailment
+      db.prepare(`
+        INSERT INTO ailments (id, name, description, severity, symptoms)
+        VALUES (?, ?, ?, ?, ?)
+      `).run(tempAilmentId, 'Temp Ailment', 'Testing cascade', 'MILD', '[]');
+
+      // Link temporary ailment to therapy
+      db.prepare(`
+        INSERT INTO therapy_target_ailments (therapy_id, ailment_id)
+        VALUES (?, ?)
+      `).run(tempTherapyId, tempAilmentId);
+
+      // Verify link exists
+      const linkBefore = db.prepare(`
+        SELECT * FROM therapy_target_ailments WHERE therapy_id = ? AND ailment_id = ?
+      `).get(tempTherapyId, tempAilmentId);
+      expect(linkBefore).toBeDefined();
+
+      // Delete ailment
+      db.prepare('DELETE FROM ailments WHERE id = ?').run(tempAilmentId);
+
+      // Verify junction link was automatically cascade-deleted
+      const linkAfter = db.prepare(`
+        SELECT * FROM therapy_target_ailments WHERE therapy_id = ? AND ailment_id = ?
+      `).get(tempTherapyId, tempAilmentId);
+      expect(linkAfter).toBeUndefined();
+    });
+  });
 });
+

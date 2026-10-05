@@ -1,6 +1,7 @@
 process.env.TEST_MODE = '1';
 
 import { describe, it, expect, beforeAll } from 'vitest';
+import { getDb } from '../src/lib/db';
 import { seed } from '../src/scripts/seed';
 import {
   getAllAilments,
@@ -113,6 +114,35 @@ describe('Ailments & Therapies Catalog Services', () => {
     it('returns empty array when no therapies match an unknown ailment ID', () => {
       const noMatches = getTherapiesForAilment('unknown-ailment-12345');
       expect(noMatches).toEqual([]);
+    });
+
+    it('reflects relational cascade deletion in target_ailment_ids when an ailment is removed', () => {
+      const db = getDb();
+      const testAilmentId = `test-ailment-service-cascade-${Date.now()}`;
+      const testTherapyId = 'therapy-token-flush';
+
+      // Insert test ailment
+      db.prepare(`
+        INSERT INTO ailments (id, name, description, severity, symptoms)
+        VALUES (?, ?, ?, ?, ?)
+      `).run(testAilmentId, 'Service Cascade Ailment', 'Testing service reflection', 'MILD', '[]');
+
+      // Link in junction table
+      db.prepare(`
+        INSERT INTO therapy_target_ailments (therapy_id, ailment_id)
+        VALUES (?, ?)
+      `).run(testTherapyId, testAilmentId);
+
+      // Verify service returns the linked ailment ID
+      const therapyBefore = getTherapyById(testTherapyId);
+      expect(therapyBefore?.target_ailment_ids).toContain(testAilmentId);
+
+      // Delete the ailment
+      db.prepare('DELETE FROM ailments WHERE id = ?').run(testAilmentId);
+
+      // Verify service no longer returns the deleted ailment ID
+      const therapyAfter = getTherapyById(testTherapyId);
+      expect(therapyAfter?.target_ailment_ids).not.toContain(testAilmentId);
     });
   });
 });
