@@ -2,8 +2,15 @@
 
 All notable changes to AgentClinic are documented in this file.
 
+## 2026-10-05
+
+- refactor(db): add migrations runner & relational junction (59247bf)
+- feat(catalog): impl. ailments and therapies catalog (5617a2f)
+- docs(specs): phase 2 feat. dev. (e1b3f5d)
+
 ## 2026-09-29
 
+- feat(skills): add changelog skill & init doc (588f0c5)
 - chore(git): update `.gitignore` (8e38252)
 - feat(app): impl. responsive design (e06df87)
 - feat(specs): replan for responsive design (9d73a20)

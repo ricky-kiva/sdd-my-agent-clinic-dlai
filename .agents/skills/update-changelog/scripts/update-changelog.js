@@ -81,9 +81,9 @@ function updateChangelog() {
     missingByDate.get(commit.date).push(commit);
   }
 
-  // Prepend new date sections after the header
-  const headerMatch = existingContent.match(/^(# Changelog[\s\S]*?\n\n)/);
-  const header = headerMatch ? headerMatch[1] : '# Changelog\n\n';
+  // Prepend new date sections after the header (everything before the first date section)
+  const headerMatch = existingContent.match(/^([\s\S]*?\n\n)(?=## \d{4}-\d{2}-\d{2})/);
+  const header = headerMatch ? headerMatch[1] : '# Changelog\n\nAll notable changes to AgentClinic are documented in this file.\n\n';
   let rest = headerMatch ? existingContent.slice(headerMatch[1].length) : existingContent;
 
   const newSections = [];
