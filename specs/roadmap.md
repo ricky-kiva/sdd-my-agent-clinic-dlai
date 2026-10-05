@@ -47,6 +47,6 @@ Implementation is structured into 5 micro-phases of work. Each phase builds incr
 ---
 
 ### Phase 5: UI Styling & Polish
-- Apply cohesive modern styling using Vanilla CSS design tokens.
+- Apply cohesive modern styling using PicoCSS semantic foundations and clinic design tokens.
 - Comprehensive responsive design audit across mobile (< 640px), tablet (640px–1024px), and desktop (> 1024px) viewports.
 - Implement micro-animations, accessible focus states, touch target ergonomics (>= 44px), and clinic-themed aesthetic touches (calming palette, glassmorphism).

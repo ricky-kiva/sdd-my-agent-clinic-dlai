@@ -17,8 +17,8 @@ AgentClinic is architected as a full-stack TypeScript web application powered by
 
 ### Frontend & UI
 - **Library**: React 18+ (React Server Components + interactive Client Components)
-- **Styling**: Vanilla CSS with modern CSS variables, CSS grid/flexbox, and component scoping
-  - High performance with zero runtime CSS-in-JS overhead
+- **Styling**: [PicoCSS](https://picocss.com/) (`@picocss/pico`) semantic CSS framework combined with custom CSS variables, CSS grid/flexbox, and component scoping
+  - Clean semantic HTML elements (`<article>`, `<header>`, `<footer>`, `<nav>`, `.grid`) with zero runtime CSS-in-JS overhead
   - Dark mode and calming clinic color palette (ambient blues, teals, soft slate)
   - Glassmorphic panels, subtle gradients, and micro-interactions
 - **Responsive Design**:
