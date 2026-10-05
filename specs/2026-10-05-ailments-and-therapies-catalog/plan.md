@@ -16,7 +16,7 @@ This plan specifies the implementation steps for Phase 2 structured into five nu
   - Implement `getAllTherapies(): Therapy[]`.
   - Implement `getTherapyById(id: string): Therapy | null`.
   - Implement `getTherapiesForAilment(ailmentId: string): Therapy[]`.
-  - Safely deserialize JSON `target_ailment_ids` field into strongly typed string arrays.
+  - Safely deserialize JSON `target_ailment_ids` string array and `methodology` object from SQLite into strongly typed domain objects.
 - **Task 1.4**: Create `src/lib/services/index.ts` consolidating barrel exports for clean service consumption.
 
 ---

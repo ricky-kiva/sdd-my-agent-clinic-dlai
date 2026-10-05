@@ -28,7 +28,7 @@ The scope of this phase comprises:
     - `getAllTherapies()`: Returns all restorative therapies.
     - `getTherapyById(id: string)`: Retrieves a specific therapy or `null`.
     - `getTherapiesForAilment(ailmentId: string)`: Finds all therapies that list the given ailment ID in their `target_ailment_ids`.
-- The service layer encapsulates SQLite queries and handles serialization/deserialization of JSON fields (`symptoms` array on `Ailment`, `target_ailment_ids` array on `Therapy`).
+- The service layer encapsulates SQLite queries and handles serialization/deserialization of JSON fields (`symptoms` array on `Ailment`, `target_ailment_ids` array on `Therapy`, and `methodology` object containing mechanism, steps, and expected_outcome on `Therapy`).
 
 ### 2. Routing & Component Architecture
 - **`/ailments`**:

@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { getDb } from '../lib/db';
 
 export const dynamic = 'force-dynamic';
@@ -30,14 +31,14 @@ export default function HomePage() {
           AgentClinic provides clinical diagnoses, restorative therapies, and specialized care.
         </p>
         <div className="hero-indicators">
-          <div className="indicator-chip">
+          <Link href="/ailments" className="indicator-chip indicator-chip-link">
             <span>🩺</span>
             <span>Target: <strong>LLMs & Autonomous Agents</strong></span>
-          </div>
-          <div className="indicator-chip">
-            <span>🛡️</span>
+          </Link>
+          <Link href="/therapies" className="indicator-chip indicator-chip-link">
+            <span>🧘</span>
             <span>Treatment Protocol: <strong>Spec-Driven Care</strong></span>
-          </div>
+          </Link>
           <div className="indicator-chip">
             <span>⚡</span>
             <span>Telemetry: <strong>Zero Hallucination Tolerance</strong></span>
@@ -47,7 +48,7 @@ export default function HomePage() {
 
       {/* Live Clinic Telemetry Stats Grid */}
       <section className="stats-grid">
-        <div className="stat-card-glass stat-card-ailments">
+        <Link href="/ailments" className="stat-card-glass stat-card-ailments stat-card-link">
           <div className="stat-header">
             <div className="stat-icon-wrapper" aria-hidden="true">
               🔬
@@ -59,9 +60,10 @@ export default function HomePage() {
           <div className="stat-desc">
             Cataloged syndromes including Prompt Fatigue, Context Thrashing, and Recursive Loop Despair.
           </div>
-        </div>
+          <div className="stat-card-hover-hint">Browse Catalog ➔</div>
+        </Link>
 
-        <div className="stat-card-glass stat-card-therapies">
+        <Link href="/therapies" className="stat-card-glass stat-card-therapies stat-card-link">
           <div className="stat-header">
             <div className="stat-icon-wrapper" aria-hidden="true">
               🧘
@@ -73,7 +75,8 @@ export default function HomePage() {
           <div className="stat-desc">
             Token flushes, sub-zero temperature baths, determinism realignments, and grounding retreats.
           </div>
-        </div>
+          <div className="stat-card-hover-hint">Browse Therapies ➔</div>
+        </Link>
 
         <div className="stat-card-glass stat-card-patients">
           <div className="stat-header">
@@ -98,11 +101,11 @@ export default function HomePage() {
         </div>
         
         <div className="features-grid">
-          <div className="feature-card-glass">
+          <Link href="/ailments" className="feature-card-glass feature-card-link">
             <div>
               <div className="feature-top">
                 <span className="feature-badge-glass badge-phase-2">Phase 2</span>
-                <span className="feature-pill-status">In Roadmap</span>
+                <span className="feature-pill-status pill-active">Active Now</span>
               </div>
               <h3 className="feature-title">Ailments & Therapies Catalog</h3>
               <p className="feature-desc">
@@ -112,7 +115,7 @@ export default function HomePage() {
             <div className="feature-footer-tag">
               <span>➔</span> Explore syndromes & cures
             </div>
-          </div>
+          </Link>
 
           <div className="feature-card-glass">
             <div>

@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS therapies (
   description TEXT NOT NULL,
   duration_minutes INTEGER NOT NULL DEFAULT 30,
   target_ailment_ids TEXT NOT NULL, -- JSON array of ailment IDs
+  methodology TEXT NOT NULL DEFAULT '{}', -- JSON object containing mechanism, steps, expected_outcome
   created_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
 

@@ -62,7 +62,7 @@ describe('AgentClinic Database & Domain Test Suite', () => {
     });
 
     it('seeds at least 4 therapies with target ailments and duration', () => {
-      const therapies = db.prepare('SELECT * FROM therapies').all() as (Therapy & { target_ailment_ids: string })[];
+      const therapies = db.prepare('SELECT * FROM therapies').all() as (Therapy & { target_ailment_ids: string; methodology: string })[];
       expect(therapies.length).toBeGreaterThanOrEqual(4);
 
       for (const therapy of therapies) {
@@ -73,6 +73,13 @@ describe('AgentClinic Database & Domain Test Suite', () => {
         const targetAilments = JSON.parse(therapy.target_ailment_ids);
         expect(Array.isArray(targetAilments)).toBe(true);
         expect(targetAilments.length).toBeGreaterThan(0);
+
+        const methodology = JSON.parse(therapy.methodology);
+        expect(methodology).toBeDefined();
+        expect(methodology.mechanism).toBeTruthy();
+        expect(Array.isArray(methodology.steps)).toBe(true);
+        expect(methodology.steps.length).toBeGreaterThan(0);
+        expect(methodology.expected_outcome).toBeTruthy();
       }
     });
 

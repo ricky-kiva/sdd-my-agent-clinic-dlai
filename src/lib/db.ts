@@ -28,6 +28,16 @@ export function getDb(): Database.Database {
     db.exec(schemaSql);
   }
 
+  // Ensure therapies table has methodology column
+  try {
+    const tableInfo = db.pragma('table_info(therapies)') as { name: string }[];
+    if (tableInfo.length > 0 && !tableInfo.some((col) => col.name === 'methodology')) {
+      db.exec(`ALTER TABLE therapies ADD COLUMN methodology TEXT NOT NULL DEFAULT '{}'`);
+    }
+  } catch (err) {
+    console.error('Error ensuring therapies methodology column:', err);
+  }
+
   dbInstance = db;
   return dbInstance;
 }
