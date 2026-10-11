@@ -1,6 +1,13 @@
 import crypto from 'crypto';
 import { getDb } from '../db';
-import { Appointment, AppointmentDetail, AppointmentStatus, CreateAppointmentDTO } from '../../types';
+import {
+  Appointment,
+  AppointmentDetail,
+  AppointmentStatus,
+  CreateAppointmentDTO,
+  UpdateAppointmentDTO,
+  VALID_STATUS_TRANSITIONS,
+} from '../../types';
 import { agentService } from './agent-service';
 import { therapyService } from './therapy-service';
 
@@ -129,9 +136,27 @@ export function getAppointmentById(id: string): AppointmentDetail | null {
   };
 }
 
-export function getAllAppointments(): AppointmentDetail[] {
+export function getAllAppointments(filter?: { status?: AppointmentStatus; agentId?: string }): AppointmentDetail[] {
   const db = getDb();
-  const rows = db.prepare('SELECT * FROM appointments ORDER BY scheduled_time ASC').all() as RawAppointmentRow[];
+  let query = 'SELECT * FROM appointments';
+  const conditions: string[] = [];
+  const params: any[] = [];
+
+  if (filter?.status) {
+    conditions.push('status = ?');
+    params.push(filter.status);
+  }
+  if (filter?.agentId) {
+    conditions.push('agent_id = ?');
+    params.push(filter.agentId);
+  }
+
+  if (conditions.length > 0) {
+    query += ' WHERE ' + conditions.join(' AND ');
+  }
+  query += ' ORDER BY scheduled_time ASC';
+
+  const rows = db.prepare(query).all(...params) as RawAppointmentRow[];
   const appointments: AppointmentDetail[] = [];
 
   for (const row of rows) {
@@ -158,11 +183,65 @@ export function getAppointmentsByAgentId(agentId: string): Appointment[] {
 
 export function updateAppointmentStatus(id: string, status: AppointmentStatus): Appointment | null {
   const db = getDb();
-  const now = new Date().toISOString();
-  const result = db.prepare('UPDATE appointments SET status = ?, updated_at = ? WHERE id = ?').run(status, now, id);
-  if (result.changes === 0) {
+  const existing = db.prepare('SELECT * FROM appointments WHERE id = ?').get(id) as RawAppointmentRow | undefined;
+  if (!existing) {
     return null;
   }
+
+  const currentStatus = existing.status as AppointmentStatus;
+  if (currentStatus !== status) {
+    const allowed = VALID_STATUS_TRANSITIONS[currentStatus] || [];
+    if (!allowed.includes(status)) {
+      throw new Error(`Invalid status transition from ${currentStatus} to ${status}`);
+    }
+  }
+
+  const now = new Date().toISOString();
+  db.prepare('UPDATE appointments SET status = ?, updated_at = ? WHERE id = ?').run(status, now, id);
+
+  const row = db.prepare('SELECT * FROM appointments WHERE id = ?').get(id) as RawAppointmentRow | undefined;
+  return row ? parseAppointmentRow(row) : null;
+}
+
+export function updateClinicalNotes(id: string, clinicalNotes: string): Appointment | null {
+  const db = getDb();
+  const existing = db.prepare('SELECT * FROM appointments WHERE id = ?').get(id) as RawAppointmentRow | undefined;
+  if (!existing) {
+    return null;
+  }
+
+  const now = new Date().toISOString();
+  db.prepare('UPDATE appointments SET clinical_notes = ?, updated_at = ? WHERE id = ?').run(clinicalNotes, now, id);
+
+  const row = db.prepare('SELECT * FROM appointments WHERE id = ?').get(id) as RawAppointmentRow | undefined;
+  return row ? parseAppointmentRow(row) : null;
+}
+
+export function updateAppointment(id: string, dto: UpdateAppointmentDTO): Appointment | null {
+  const db = getDb();
+  const existing = db.prepare('SELECT * FROM appointments WHERE id = ?').get(id) as RawAppointmentRow | undefined;
+  if (!existing) {
+    return null;
+  }
+
+  let newStatus = existing.status as AppointmentStatus;
+  if (dto.status !== undefined && dto.status !== newStatus) {
+    const allowed = VALID_STATUS_TRANSITIONS[newStatus] || [];
+    if (!allowed.includes(dto.status)) {
+      throw new Error(`Invalid status transition from ${newStatus} to ${dto.status}`);
+    }
+    newStatus = dto.status;
+  }
+
+  const newNotes = dto.clinical_notes !== undefined ? dto.clinical_notes : existing.clinical_notes;
+  const now = new Date().toISOString();
+
+  db.prepare('UPDATE appointments SET status = ?, clinical_notes = ?, updated_at = ? WHERE id = ?').run(
+    newStatus,
+    newNotes,
+    now,
+    id
+  );
 
   const row = db.prepare('SELECT * FROM appointments WHERE id = ?').get(id) as RawAppointmentRow | undefined;
   return row ? parseAppointmentRow(row) : null;
@@ -195,5 +274,8 @@ export const appointmentService = {
   getAllAppointments,
   getAppointmentsByAgentId,
   updateAppointmentStatus,
+  updateClinicalNotes,
+  updateAppointment,
   getAvailableSlots,
 };
+

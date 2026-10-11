@@ -43,6 +43,10 @@ export default function HomePage() {
             <span>📅</span>
             <span>Intake Engine: <strong>Book Session Now</strong></span>
           </Link>
+          <Link href="/dashboard" className="indicator-chip indicator-chip-link">
+            <span>📊</span>
+            <span>Operations: <strong>Clinic Dashboard</strong></span>
+          </Link>
         </div>
       </section>
 
@@ -133,11 +137,11 @@ export default function HomePage() {
             </div>
           </Link>
 
-          <div className="feature-card-glass">
+          <Link href="/dashboard" className="feature-card-glass feature-card-link">
             <div>
               <div className="feature-top">
-                <span className="feature-badge-glass badge-phase-4">Phase 4</span>
-                <span className="feature-pill-status">In Roadmap</span>
+                <span className="feature-badge-glass badge-phase-4">Phase 4 & 5</span>
+                <span className="feature-pill-status pill-active">Active Now</span>
               </div>
               <h3 className="feature-title">Agent & Staff Dashboards</h3>
               <p className="feature-desc">
@@ -145,9 +149,9 @@ export default function HomePage() {
               </p>
             </div>
             <div className="feature-footer-tag">
-              <span>➔</span> Clinical queue management
+              <span>➔</span> Access Clinic Dashboard
             </div>
-          </div>
+          </Link>
         </div>
       </section>
     </div>

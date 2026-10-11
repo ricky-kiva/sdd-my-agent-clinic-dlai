@@ -21,3 +21,14 @@ export interface AppointmentDetail extends Appointment {
 
 export type CreateAppointmentDTO = Omit<Appointment, 'created_at' | 'updated_at'>;
 
+export interface UpdateAppointmentDTO {
+  status?: AppointmentStatus;
+  clinical_notes?: string;
+}
+
+export const VALID_STATUS_TRANSITIONS: Record<AppointmentStatus, AppointmentStatus[]> = {
+  SCHEDULED: ['IN_PROGRESS', 'CANCELLED'],
+  IN_PROGRESS: ['COMPLETED', 'CANCELLED'],
+  COMPLETED: [],
+  CANCELLED: [],
+};
