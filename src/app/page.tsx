@@ -39,10 +39,10 @@ export default function HomePage() {
             <span>🧘</span>
             <span>Treatment Protocol: <strong>Spec-Driven Care</strong></span>
           </Link>
-          <div className="indicator-chip">
-            <span>⚡</span>
-            <span>Telemetry: <strong>Zero Hallucination Tolerance</strong></span>
-          </div>
+          <Link href="/book" className="indicator-chip indicator-chip-link">
+            <span>📅</span>
+            <span>Intake Engine: <strong>Book Session Now</strong></span>
+          </Link>
         </div>
       </section>
 
@@ -117,11 +117,11 @@ export default function HomePage() {
             </div>
           </Link>
 
-          <div className="feature-card-glass">
+          <Link href="/book" className="feature-card-glass feature-card-link">
             <div>
               <div className="feature-top">
                 <span className="feature-badge-glass badge-phase-3">Phase 3</span>
-                <span className="feature-pill-status">In Roadmap</span>
+                <span className="feature-pill-status pill-active">Active Now</span>
               </div>
               <h3 className="feature-title">Appointment Booking Engine</h3>
               <p className="feature-desc">
@@ -129,9 +129,9 @@ export default function HomePage() {
               </p>
             </div>
             <div className="feature-footer-tag">
-              <span>➔</span> Autonomous patient intake
+              <span>➔</span> Schedule patient intake
             </div>
-          </div>
+          </Link>
 
           <div className="feature-card-glass">
             <div>

@@ -127,20 +127,19 @@ export default async function TherapyDetailPage({ params }: TherapyDetailPagePro
           </div>
         </section>
 
-        {/* Phase 3 Booking Teaser / CTA */}
+        {/* Phase 3 Booking CTA */}
         <footer className="protocol-cta-footer">
           <div className="cta-info">
-            <span className="cta-badge">Phase 3 Booking Preview</span>
+            <span className="cta-badge">Prescribe Treatment</span>
             <h3>Ready to admit a patient for {therapy.name}?</h3>
             <p>
-              The automated booking engine opens in Phase 3. Clinical slots will be allocated
-              based on agent fatigue levels and human stress factors.
+              Schedule a dedicated recovery session with our specialized clinical models based on agent fatigue levels and human stress factors.
             </p>
           </div>
           <div className="cta-actions">
-            <button type="button" className="btn-book-disabled" disabled aria-disabled="true">
-              📅 Book Session (Available Phase 3)
-            </button>
+            <Link href={`/book?therapyId=${therapy.id}`} className="btn-explore-therapies" role="button" style={{ textDecoration: 'none' }}>
+              📅 Book This Therapy Now ➔
+            </Link>
             <Link href="/therapies" className="btn-back-catalog">
               ← Return to Therapies Catalog
             </Link>
