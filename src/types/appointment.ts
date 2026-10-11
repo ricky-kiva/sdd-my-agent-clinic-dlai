@@ -1,3 +1,6 @@
+import { Agent } from './agent';
+import { Therapy } from './therapy';
+
 export type AppointmentStatus = 'SCHEDULED' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED';
 
 export interface Appointment {
@@ -11,4 +14,10 @@ export interface Appointment {
   updated_at: string;
 }
 
+export interface AppointmentDetail extends Appointment {
+  agent: Agent;
+  therapy: Therapy;
+}
+
 export type CreateAppointmentDTO = Omit<Appointment, 'created_at' | 'updated_at'>;
+

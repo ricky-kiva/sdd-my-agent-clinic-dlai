@@ -52,11 +52,14 @@ export default function RootLayout({
                 <li>
                   <Link href="/therapies" className="nav-link">Therapies Directory</Link>
                 </li>
+                <li>
+                  <Link href="/book" className="nav-link">Book Session</Link>
+                </li>
               </ul>
 
               <div className="header-status">
                 <span className="pulse-dot" />
-                <span className="status-text-full">Phase 2 Active &bull; Catalog Online</span>
+                <span className="status-text-full">Phase 3 Active &bull; Booking Online</span>
                 <span className="status-text-compact">Online</span>
               </div>
             </nav>
