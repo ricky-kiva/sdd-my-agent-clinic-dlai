@@ -2,6 +2,7 @@ process.env.TEST_MODE = '1';
 
 import { describe, it, expect, beforeAll } from 'vitest';
 import { seed } from '../src/scripts/seed';
+import { getDb } from '../src/lib/db';
 import {
   getAllAgents,
   getAgentById,
@@ -16,6 +17,7 @@ import {
 describe('Booking Services (Agent & Appointment)', () => {
   beforeAll(() => {
     seed();
+    getDb().prepare(`DELETE FROM appointments WHERE scheduled_time LIKE '2027-05-%'`).run();
   });
 
   describe('Agent Service', () => {
@@ -146,7 +148,7 @@ describe('Booking Services (Agent & Appointment)', () => {
 
     it('updates appointment status', () => {
       const appointments = getAppointmentsByAgentId(testAgentId);
-      const appt = appointments[0];
+      const appt = appointments.find((a) => a.scheduled_time === scheduledTime) || appointments[0];
 
       const updated = updateAppointmentStatus(appt.id, 'IN_PROGRESS');
       expect(updated).toBeDefined();

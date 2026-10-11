@@ -4,11 +4,21 @@ import {
   getAllAppointments,
   getAppointmentsByAgentId,
 } from '../../../lib/services';
+import { AppointmentStatus } from '../../../types';
 
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const agentId = searchParams.get('agentId') || searchParams.get('agent_id');
+    const status = searchParams.get('status') as AppointmentStatus | null;
+
+    if (status) {
+      const appointments = getAllAppointments({
+        status,
+        agentId: agentId || undefined,
+      });
+      return NextResponse.json({ appointments });
+    }
 
     if (agentId) {
       const appointments = getAppointmentsByAgentId(agentId);

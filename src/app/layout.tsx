@@ -55,11 +55,14 @@ export default function RootLayout({
                 <li>
                   <Link href="/book" className="nav-link">Book Session</Link>
                 </li>
+                <li>
+                  <Link href="/dashboard" className="nav-link">Dashboard</Link>
+                </li>
               </ul>
 
               <div className="header-status">
                 <span className="pulse-dot" />
-                <span className="status-text-full">Phase 3 Active &bull; Booking Online</span>
+                <span className="status-text-full">MVP Active &bull; Operations Online</span>
                 <span className="status-text-compact">Online</span>
               </div>
             </nav>

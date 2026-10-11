@@ -3,6 +3,7 @@ process.env.TEST_MODE = '1';
 import { describe, it, expect, beforeAll } from 'vitest';
 import { NextRequest } from 'next/server';
 import { seed } from '../src/scripts/seed';
+import { getDb } from '../src/lib/db';
 import { GET as getAgents } from '../src/app/api/agents/route';
 import {
   GET as getAppointments,
@@ -13,6 +14,7 @@ import { GET as getAppointmentByIdRoute } from '../src/app/api/appointments/[id]
 describe('Booking API Route Handlers', () => {
   beforeAll(() => {
     seed();
+    getDb().prepare(`DELETE FROM appointments WHERE scheduled_time LIKE '2027-08-%'`).run();
   });
 
   describe('GET /api/agents', () => {
